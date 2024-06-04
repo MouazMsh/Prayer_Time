@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prayer Time</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Radio+Canada+Big:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Form -->
+<div class="container font">
+        <div class="row inner">
+              <div class="card-body p-3 p-md-4 p-xl-5">
+                <div class="row ">
+                  <div class="col-12 mb-2">
+                    <h2>Prayer Times</h2>
+                  </div>
+                  <div class="col-12 mb-4">
+                    <p> Select your country and city and get Prayer times </p>
+                  </div>
+                </div>  
+                <form method="POST" autocomplete="off">
+                  <div class="row gy-3 overflow-hidden">
+                    <div class="col mb-2">
+                        <select class="form-select" name="select" aria-label="Default select" required>
+                            <option value="" selected>Choose your country </option>
+                            <% if(locals.country) { %>
+                               <% for (let i = 0; i < country.length; i++) { %>
+                            <option value= "<%= country[i] %>"> <%= country[i] %> </option>    
+                                <% } %>
+                            <% } %>                    
+                          </select>
+                    </div>
+                    <div class="col">
+                        <div class="d-grid">
+                          <button class="btn bsb-btn-2xl btn-primary" type="submit" formaction="/country">Get City List</button>
+                        </div>
+                    </div>
+                </form>
+                <form method="POST" autocomplete="off">
+                    <% if(locals.city) { %>
+                    <div class="col-12 mb-2">
+                        <select class="form-select" name="selectCity" aria-label="Default select" required>
+                            <option selected>Choose your city</option>
+                            <% for (let i = 0; i < city.length; i++) { %>
+                                <option value= "<%= city[i] %>"> <%= city[i] %> </option>    
+                            <% } %>
+                          </select>
+                    </div>
+                    <div class="col-12">
+                        <div class="d-grid">
+                          <button class="btn bsb-btn-2xl btn-primary" type="submit" formaction="/prayer">Get Prayer time</button>
+                        </div>
+                      </div>
+                    <% } %>
+                </form>                    
+                  </div>
+          </div>
+        </div>
+</div>
+
+<!-- Cards -->
+<div class="container py-2 font">
+    <div class="row">
+          <% if(!locals.data) { %>
+              <% } else { %>
+                <div class=" row col-sm-12">
+                    <p class="col-sm-12 text-start text-primary"><%= cureentTime %></p>
+                    <p class="col-sm text-start text-primary"><%= passedCity %> / <%= passedCoun %></p>
+                    <p class="col-sm text-end text-primary">Time to next prayer  <%= timeRem.toLocaleTimeString([], {hourCycle: 'h23', hour: '2-digit', minute:'2-digit'}).replace("AM","").replace("PM","") %> mintues</p>
+                </div>
+                <div class="border-top my-2"></div>
+                <!-- First Card -->
+                <div class="col-sm card text-start m-1">
+                    <img src="/images/fajr.png" class="card-img-top" alt="fajr">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3">Fajr</h5>
+                      <p class="card-text fs-2 fw-bold"><%= data.timings.Fajr %></p>
+                    </div>
+                </div>
+                  <!-- Second Card-->
+                  <div class="col-sm card text-start m-1">
+                    <img src="/images/dhhr.png" class="card-img-top" alt="dhuhr">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3">Dhuhr</h5>
+                      <p class="card-text fs-2 fw-bold"><%= data.timings.Dhuhr %></p>
+                    </div>
+                  </div>
+                  <!-- Third Card-->
+                  <div class="col-sm card text-start m-1" >
+                    <img src="/images/asr.png" class="card-img-top" alt="asr">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3">Asr</h5>
+                      <p class="card-text fs-2 fw-bold"><%= data.timings.Asr %></p>
+                    </div>
+                  </div>
+                <!-- Fourth Card-->
+                  <div class="col-sm card text-start m-1">
+                    <img src="/images/sunset.png" class="card-img-top" alt="maghrib">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3">Maghrib</h5>
+                      <p class="card-text fs-2 fw-bold"><%= data.timings.Maghrib %></p>
+                    </div>
+                  </div>
+                <!-- Fifth Card-->
+                  <div class="col-sm card text-start m-1">
+                    <img src="/images/night.png" class="card-img-top" alt="isha">
+                    <div class="card-body">
+                      <h5 class="card-title fs-3">Isha</h5>
+                      <p class="card-text fs-2 fw-bold"><%= data.timings.Isha %></p>
+                    </div>
+                  </div>    
+          <% } %>            
+    </div>      
+</div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</body>
+</html>

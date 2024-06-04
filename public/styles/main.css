@@ -1,0 +1,38 @@
+html {
+    height: 100%;
+}
+
+body {
+    background-color: #242424;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.inner {
+    background-color: white;
+    border-radius: 2%;
+    margin: 5% auto;
+    width: 50%;
+    height: 40%;
+}
+
+
+.font {
+    font-family: "Radio Canada Big", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+@media (max-width: 767.98px) { 
+    .inner {
+        width: 100%;
+        height: 50%;
+    }
+}
