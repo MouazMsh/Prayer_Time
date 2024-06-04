@@ -48,7 +48,7 @@ app.post("/prayer", async (req,res) => {
         prayerList(`${result_time.split(" ")[0]}`+ ` ${result.data.timings.Maghrib}`); 
         prayerList(`${result_time.split(" ")[0]}`+ ` ${result.data.timings.Isha}`);
         var diff = new Date(nextDate(currentdate,testDates)-currentdate); // Difference between current time and the closest prayer time
-        diff.setHours(diff.getHours() - 3); // Substracting 3 hours 
+        diff.setHours(diff.getHours()); // Substracting 3 hours 
         res.render("index.ejs", {country : countries, city : cities, data : result.data, passedCity : cit, passedCoun : coun, cureentTime : result_time, timeRem: diff})
     } catch (error) {
         res.render("index.ejs", {error: error.message});
