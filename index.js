@@ -47,8 +47,9 @@ app.post("/prayer", async (req,res) => {
         prayerList(`${result_time.split(" ")[0]}`+ ` ${result.data.timings.Asr}`); 
         prayerList(`${result_time.split(" ")[0]}`+ ` ${result.data.timings.Maghrib}`); 
         prayerList(`${result_time.split(" ")[0]}`+ ` ${result.data.timings.Isha}`);
-        var diff = new Date(nextDate(currentdate,testDates)-currentdate); // Difference between current time and the closest prayer time
-        diff.setHours(diff.getHours()); // Substracting 3 hours 
+        var diff = new Date(getNextClosestDate(testDates,currentdate)); // Get the next closest prayer time
+        diff = new Date(diff-currentdate); // Difference between current time and the closest prayer timea
+        diff.setHours((diff.getHours())-3); // {Substracting 3 hours}
         res.render("index.ejs", {country : countries, city : cities, data : result.data, passedCity : cit, passedCoun : coun, cureentTime : result_time, timeRem: diff})
     } catch (error) {
         res.render("index.ejs", {error: error.message});
@@ -69,17 +70,23 @@ function timeSpliting(para) {
 }
 
 // Find the next closest date to the current date
-function nextDate( startDate, dates ) {
-    var startTime = +startDate;
-    var nearestDate, nearestDiff = Infinity;
-    for( var i = 0 ;  i < dates.length;  ++i ) {
-        var diff = +dates[i] - startTime;
-        if( diff > 0  &&  diff < nearestDiff ) {
-            nearestDiff = diff;
-            nearestDate = dates[i];
-        }
-    }
-    return nearestDate;
+function getNextClosestDate(dates, currentDate) {
+      
+    const current = new Date(currentDate);
+    let closestDate = null;
+    let minDiff = Infinity;
+  
+    dates.forEach(dateString => {
+      const date = new Date(dateString);
+      const diff = date - current;
+  
+      if (diff > 0 && diff < minDiff) {
+        closestDate = date;
+        minDiff = diff;
+      }
+    });
+  
+    return closestDate ? closestDate.toISOString() : null;
 }
 
 // Pushing the prayers time to a list
