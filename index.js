@@ -49,7 +49,7 @@ app.post("/prayer", async (req,res) => {
         prayerList(`${result_time.split(" ")[0]}`+ ` ${result.data.timings.Isha}`);
         var diff = new Date(getNextClosestDate(testDates,currentdate)); // Get the next closest prayer time
         diff = new Date(diff-currentdate); // Difference between current time and the closest prayer timea
-        diff.setHours((diff.getHours())-3); // {Substracting 3 hours}
+        diff.setHours((diff.getHours())+7); // {Substracting 3 hours}
         res.render("index.ejs", {country : countries, city : cities, data : result.data, passedCity : cit, passedCoun : coun, cureentTime : result_time, timeRem: diff})
     } catch (error) {
         res.render("index.ejs", {error: error.message});
@@ -66,7 +66,7 @@ function timeSpliting(para) {
     var tempo = para.split(" ");
     var date = tempo[0].split("-");
     var time = tempo[1].split(":");
-    return  new Date(parseInt(date[0]), parseInt(date[1]-1) , parseInt(date[2]) , parseInt(time[0])+3 ,parseInt(time[1]));
+    return  new Date(parseInt(date[0]), parseInt(date[1]-1) , parseInt(date[2]) , parseInt(time[0])-7 ,parseInt(time[1]));
 }
 
 // Find the next closest date to the current date
@@ -94,5 +94,5 @@ function prayerList(para) {
     var tempo = para.split(" ");
     var date = tempo[0].split("-");
     var time = tempo[1].split(":");
-    testDates.push( new Date(parseInt(date[0]), parseInt(date[1]-1) , parseInt(date[2]) , parseInt(time[0])+3 ,parseInt(time[1])));
+    testDates.push( new Date(parseInt(date[0]), parseInt(date[1]-1) , parseInt(date[2]) , parseInt(time[0])-7 ,parseInt(time[1])));
 }
